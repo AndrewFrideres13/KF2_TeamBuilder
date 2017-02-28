@@ -11,6 +11,9 @@ class KillFloor
     @@gunslinger = 0
     @@medic = 0
     @@support = 0
+    @@survivor = 0
+    @@swat = 0
+    @@sharpshooter = 0
   def class_selector()
     if @@name == "" 
       puts "Hello there! What is your name?"
@@ -18,7 +21,7 @@ class KillFloor
     end
     
     puts "Welcome #{@@name} to the KF2 Team Builder! Pick a class from below or type Quit to exit.
-      \n Beserker \n Commando \n Demolitions \n Firebug \n Gunslinger \n Medic \n Support \n\n(Max players to choose: #{@@maxPeople})\n\n"
+      \n Beserker \n Commando \n Demolitions \n Firebug \n Gunslinger \n Medic \n Support \n Survivalist \n Swat \n SharpShooter \n\n(Max players to choose: #{@@maxPeople})\n\n"
     inputClass = gets.chomp.upcase
     
     case inputClass
@@ -36,6 +39,12 @@ class KillFloor
         medic()
       when "SUPPORT"
         support()
+      when "SURVIVALIST"
+        survivor()
+      when "SWAT"
+        swat()
+      when "SHARPSHOOTER"
+        sharpshooter()
       when "QUIT"
         exit
       else 
@@ -144,6 +153,51 @@ class KillFloor
     return class_selector
   end
   
+  def survivor()
+    if "#{@@people}" < "#{@@maxPeople}"
+      @@survivor += 1
+      @@currentClass = "survivor"
+      puts "\nYou have selected a Survivalist"
+      addPerson()
+      puts "Have #{@@people} total\n\n" 
+      addWeap()
+    else 
+      puts "\nYour team is already full!"  
+      fullTeam()
+    end
+    return class_selector
+  end
+  
+  def swat()
+    if "#{@@people}" < "#{@@maxPeople}"
+      @@swat += 1
+      @@currentClass = "swat"
+      puts "\nYou have selected a Swat"
+      addPerson()
+      puts "Have #{@@people} total\n\n" 
+      addWeap()
+    else 
+      puts "\nYour team is already full!"  
+      fullTeam()
+    end
+    return class_selector
+  end
+  
+  def sharpshooter()
+    if "#{@@people}" < "#{@@maxPeople}"
+      @@sharpshooter += 1
+      @@currentClass = "sharpshooter"
+      puts "\nYou have selected a Sharpshooter"
+      addPerson()
+      puts "Have #{@@people} total\n\n" 
+      addWeap()
+    else 
+      puts "\nYour team is already full!"  
+      fullTeam()
+    end
+    return class_selector
+  end
+  
   def addPerson()
     @@people += 1
   end
@@ -156,8 +210,11 @@ class KillFloor
     puts "You have #{@@gunslinger} gunslinger's\n"
     puts "You have #{@@medic} medic's\n"
     puts "You have #{@@support} support's\n"
+    puts "You have #{@@swat} Swat's\n"
+    puts "You have #{@@survivor} survivor's\n"
+    puts "You have #{@@sharpshooter} sharpshooter's\n"
     
-    if @@medic < 1
+    if @@medic < 1 || @@survivor < 1
       puts "\n\nRedo this and put a sodding medic on the team!\n\n"
     end
     puts "Want to exit (Y/N)"
@@ -171,7 +228,7 @@ class KillFloor
   end
   
   def addWeap() 
-    if "#{@@currentClass}" == "support"
+    if "#{@@currentClass}" == "support" || "#{@@currentClass}" == "survivor"
       puts "Select a weapon for the support class (1)Shotgun (2)Double Barrel (3)M4 (4) AA12"
       weapChoice = gets.chomp.upcase
       
@@ -190,7 +247,7 @@ class KillFloor
           puts "Adding AA12"
       end 
 
-    elsif "#{@@currentClass}" == "medic"
+    elsif "#{@@currentClass}" == "medic" || "#{@@currentClass}" == "survivor"
       puts "Select a weapon for the medic class (1)HMTech Pistol (2)HMTech SMG (3)HMTech Shotgun (4) HMTech AR"
       weapChoice = gets.chomp.upcase
       
@@ -209,7 +266,7 @@ class KillFloor
           puts "Adding HMTech Assault Rifle"
       end 
 
-    elsif "#{@@currentClass}" == "gunslinger"
+    elsif "#{@@currentClass}" == "gunslinger" || "#{@@currentClass}" == "survivor"
       puts "Select a weapon for the gunslinger class (1)Revolvers (2)Colts (3)Deagles (4)Magnums"
       weapChoice = gets.chomp.upcase
       
@@ -228,7 +285,7 @@ class KillFloor
           puts "Adding magnums"
       end 
 
-    elsif "#{@@currentClass}" == "demolitions"
+    elsif "#{@@currentClass}" == "demolitions" || "#{@@currentClass}" == "survivor"
       puts "Select a weapon for the demolitions class (1)HX25 Pistol (2)M70 (3)C4 (4)RPG"
       weapChoice = gets.chomp.upcase
       
@@ -247,7 +304,7 @@ class KillFloor
           puts "Adding RPG"
       end 
   
-    elsif "#{@@currentClass}" == "firebug"
+    elsif "#{@@currentClass}" == "firebug" || "#{@@currentClass}" == "survivor"
       puts "Select a weapon for the firebug class (1)Caulker (2)Trenchgun (3)Flamethrower (4)Microwave Gun"
       weapChoice = gets.chomp.upcase
       
@@ -266,7 +323,7 @@ class KillFloor
           puts "Adding Microwave Gun"
       end 
       
-    elsif "#{@@currentClass}" == "commando"
+    elsif "#{@@currentClass}" == "commando" || "#{@@currentClass}" == "survivor"
       puts "Select a weapon for the commando class (1)Varmint Rifle (2)Bullpup (3)AK12 (4)Scar"
       weapChoice = gets.chomp.upcase
       
@@ -285,7 +342,7 @@ class KillFloor
           puts "Adding SCAR"
       end 
 
-    elsif "#{@@currentClass}" == "beserker"
+    elsif "#{@@currentClass}" == "beserker" || "#{@@currentClass}" == "survivor"
       puts "Select a weapon for the beserker class (1)Crovel (2)Nailgun (3)Pulverizor (4)Eviscerator"
       weapChoice = gets.chomp.upcase
       
@@ -303,7 +360,45 @@ class KillFloor
           @@carryCapacity -= 10
           puts "Adding Eviscerator"
       end 
-    end
+    
+    elsif "#{@@currentClass}" == "swat" || "#{@@currentClass}" == "survivor"
+      puts "Select a weapon for the survivor class (1)MP7 SMG (2)MP5RAS SMG (3)P90 SMG (4)Kriss SMG"
+      weapChoice = gets.chomp.upcase
+      
+      case weapChoice
+        when "MP7 SMG" , "1"
+          @@carryCapacity -= 1
+          puts "Adding MP7"
+        when "MP5RAS SMG" , "2"
+          @@carryCapacity -= 3
+          puts "Adding MP5RAS"
+        when "P90 SMG" , "3"
+          @@carryCapacity -= 6
+          puts "Adding P90"
+        when "KRISS SMG" , "4"
+          @@carryCapacity -= 7
+          puts "Adding Kriss SMG"
+      end
+
+      elsif "#{@@currentClass}" == "sharpshooter" || "#{@@currentClass}" == "survivor"
+        puts "Select a weapon for the sharpshooter class (1)Winchester 1894 (2)Crossbow (3)M14 EBR (4)Rail Gun"
+        weapChoice = gets.chomp.upcase
+      
+        case weapChoice
+          when "WINCHESTER 1894" , "1"
+            @@carryCapacity -= 1
+            puts "Adding Winchester"
+          when "CROSSBOW" , "2"
+            @@carryCapacity -= 3
+            puts "Adding Crossbow"
+          when "M14 EBR" , "3"
+            @@carryCapacity -= 6
+            puts "Adding EBR"
+          when "RAIL GUN" , "4"
+            @@carryCapacity -= 7
+            puts "Adding Rail Gun"
+        end   
+      end
     
       if @@carryCapacity <= 15 && @@carryCapacity > 0
         puts "Want to add another weapon? (Y/N)"
@@ -333,6 +428,15 @@ class KillFloor
       
       elsif "#{@@currentClass}" == "support"
         puts "Support stocked and fully loaded!\n" 
+      
+      elsif "#{@@currentClass}" == "swat"
+        puts "Swat ready to roll out!\n"  
+       
+      elsif "#{@@currentClass}" == "sharpshooter"
+        puts "Sharpshooter has them in the crosshairs!\n"  
+        
+      elsif "#{@@currentClass}" == "survivor"
+        puts "Survivor is survivin'\n"  
         
       end 
   'End of weap selection'
